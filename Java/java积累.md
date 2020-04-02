@@ -106,3 +106,13 @@ class RecordDownloadThread implements Runnable {
 ```java
   executorService.execute(new RecordDownloadThread(cccTellCallMapper, cccTellCall));
 ```
+
+
+## 函数式编程
+```java
+   seatResultList = seatResultList.stream().filter(seat -> existAgId.contains(seat.getAg_id())).collect(Collectors.toList());
+```   
+
+## 字符串
+字符串分割 .split() 
+特殊字符如“.”作为分隔符需要添加转义
