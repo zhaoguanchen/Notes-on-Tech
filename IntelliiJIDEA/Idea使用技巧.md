@@ -11,3 +11,8 @@ File - Settings - Build,Wxecution,Deployment - Build Tools - Maven
 Maven home directory： 指定maven安装目录
 User Settings fil： 指定配置文件
 Local repository： 指定本地仓库
+
+
+## git
+
+
