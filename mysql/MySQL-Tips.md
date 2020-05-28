@@ -5,3 +5,10 @@ ERROR 1043 (08S01): Bad handshake
 
 原因：mysql客户端版本不一致。
 解决方法：检查客户端版本，重新安装一致的版本。
+
+
+## 自增id
+修改初始自增ID
+```sql
+alter table users AUTO_INCREMENT=10000;
+```
