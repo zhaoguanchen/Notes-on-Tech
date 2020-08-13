@@ -124,8 +124,8 @@ class RecordDownloadThread implements Runnable {
 ##Hashmap  treemap 原理和区别
 
 ## 事务回滚
-  @Transactional(rollbackFor = Exception.class)
-
+####  @Transactional(rollbackFor = Exception.class)
+事务一致性
 
 测试代码：
 ```java
@@ -279,12 +279,12 @@ List<Long> checkIdList = Arrays.stream(checkIdStr.split(",")).map(checkId -> Lon
 ```
 ## 注解
 
-@Deprecated
-
+#### @Deprecated
+标志此方法过时，不推荐调用
 
 ## Spring MVC 的过程
 ###  Spring MVC 的过程
-
+  
 
  
 
@@ -305,4 +305,21 @@ List<Long> checkIdList = Arrays.stream(checkIdStr.split(",")).map(checkId -> Lon
             }
             return flag;
         });
+```
+
+## HttpClient
+
+##### post中文参数乱码
+增加header设置编码为UTF-8
+```java
+headerMap.put("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
+```
+
+
+##  数据返回前端
+#### @JSONField(serialize = false)
+添加该注解过滤返回字段
+```java
+@JSONField(serialize = false)
+private Date passTime;
 ```
