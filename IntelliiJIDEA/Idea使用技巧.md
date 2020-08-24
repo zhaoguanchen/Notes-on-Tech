@@ -1,3 +1,7 @@
+# 主题网站：http://color-themes.com
+包括常见主题：Ladies Night 2 、 Mionokai Sublime Text 3 等
+
+
 # IDEA使用技巧
 包含项目配置，环境配置，maven配置等。
 
