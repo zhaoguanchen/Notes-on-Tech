@@ -1,4 +1,71 @@
-# 1.最大假期天数
+# LeetCode
+## 1. twoSum
+my solution:
+```java
+class Solution {
+    public int[] twoSum(int[] nums, int target) {
+        Map<Integer, Integer> map = new HashMap<>();
+            for (int i = 0; i < nums.length; i++) {
+                map.put(nums[i], i);
+            }
+            for (int i = 0; i < nums.length; i++) {
+                int b = target - nums[i];
+                if (map.containsKey(b) && i != map.get(b)) {
+                    int index = map.get(b);
+                    return new int[]{i, index};
+                }
+            }
+            return new int[]{0, 1};
+    }
+}
+```
+
+better solution:
+```java
+class Solution {
+        public int[] twoSum(int[] nums, int target) {
+            Map<Integer, Integer> map = new HashMap<>();
+            for (int i = 0; i < nums.length; i++) {
+                int complement = target - nums[i];
+                if (map.containsKey(complement)) {
+                    return new int[]{map.get(complement), i};
+                }
+                map.put(nums[i], i);
+            }
+            throw new IllegalArgumentException("No two sum solution");
+        }
+    }
+```
+# LintCode
+
+## 1. removeDuplicates
+
+```java
+public class Solution {
+    /*
+     * @param nums: An ineger array
+     * @return: An integer
+     */
+    public int removeDuplicates(int[] nums) {
+        // write your code here
+        int count = 0;
+        int base = 0;
+        for (int  i = base +1;i< nums.length ;i++ ){
+            if (nums[i] == nums[base]){
+                count++;
+                continue;
+            }             
+            nums[++base] = nums[i];            
+        }         
+        return nums.length - count;
+    }
+}
+```
+
+
+# Other Source
+
+## 1.最大假期天数
 #### Description
 您只能在1个城市中旅行，由0到N-1的索引表示。一开始，你周一在城市0。
 这些城市都是通过航班连接起来的。这些航班被表示为N*N矩阵(非必要对称)，称为代表航空公司从城市i到j城市状态的flights矩阵。如果没有从城市i到城市j的航班，flights[i][j] = 0;否则,flights[i][j]= 1。还有，flights[i][i] = 0。

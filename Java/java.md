@@ -323,6 +323,11 @@ List<Long> checkIdList = Arrays.stream(checkIdStr.split(",")).map(checkId -> Lon
                     qa.stream().collect(Collectors.groupingBy(String::intern, Collectors.counting()));
 ```
 
+## map排序
+转为TreeMap，使其有序
+```java
+    TreeMap<String, Long> map = list.stream().collect(Collectors.groupingBy(item -> sf.format(new Date(item)), TreeMap::new, Collectors.counting()));
+```
 
 
 ## 权重
