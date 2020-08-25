@@ -551,12 +551,7 @@ XXTEAUtil.encryptToBase64String(str, key)
 map  list为引用传递，修改map中的对象，会修改treeList.add中的对象。
 示例：
 ```java
-
-/**
-     * @author Guanchen Zhao
-     * @Description 树形结构
-     * @Date 2020/7/1 15:09
-     **/
+public class Demo{
     public static List<FilterItemResult> listTreeByPId(List<FilterItemResult> list) {
         if (CollectionUtils.isEmpty(list)) {
             return null;
@@ -580,12 +575,7 @@ map  list为引用传递，修改map中的对象，会修改treeList.add中的�
 
         return treeList;
     }
-
-    /**
-     * @author Guanchen Zhao
-     * @Description 树形结构
-     * @Date 2020/7/1 15:09
-     **/
+    
     public static List<FilterItemResult> listTreeByCode(List<FilterItemResult> list) {
         if (CollectionUtils.isEmpty(list)) {
             return null;
@@ -609,5 +599,5 @@ map  list为引用传递，修改map中的对象，会修改treeList.add中的�
         }
         return treeList;
     }
-
+}
 ```
