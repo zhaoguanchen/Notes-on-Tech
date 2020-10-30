@@ -2,6 +2,16 @@
 
 
 ## 应用配置管理 ACM
+### 异常处理
+####  [NACOS SocketTimeoutException httpPost] currentServerAddr: http://192.168.3.58:8848， err : Read timed out
+    1.2.0版本已修复。
+```pom
+        <dependency>
+            <groupId>com.alibaba.nacos</groupId>
+            <artifactId>nacos-client</artifactId>
+            <version>1.2.1</version>
+        </dependency>
+```
 
 
 ## 访问控制 RAM

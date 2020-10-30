@@ -601,3 +601,64 @@ public class Demo{
     }
 }
 ```
+
+# 部门同步
+```java
+ public ResponseData syncDept(ShiroUser shiroUser) {
+        String lockKey = ZTTH_DEPT_SYNC + shiroUser.getId();
+        try {
+            log.info("同步部门");
+            if (redisUtils.hasKey(lockKey)) {
+                return ResponseData.error("同步部门重复操作，请稍候重试！");
+            }
+            redisUtils.setex(lockKey, JSONObject.toJSONString(shiroUser.getId()), 60);
+
+            List<Dept> deptList = getDept(shiroUser);
+            deptList.sort((o1, o2) -> {
+                Integer i1 = o1.getPids().split(",").length;
+                Integer i2 = o2.getPids().split(",").length;
+                return i1.compareTo(i2);
+            });
+
+            Map<Long, Dept> deptMap = deptList.stream().collect(Collectors.toMap(Dept::getDeptId, v -> v));
+            Dept rootDept = new Dept();
+            rootDept.setDeptId(0L);
+            rootDept.setCccDeptId(getCccDept(shiroUser.getId()).getDept_id());
+            rootDept.setSimpleName(getCccDept(shiroUser.getId()).getDept_name());
+            deptMap.put(rootDept.getDeptId(), rootDept);
+
+            for (Dept dept : deptList) {
+                if (ToolUtil.isEmpty(dept.getCccDeptId())) {
+//                    add
+                    CccDeptDto cccDeptDto = new CccDeptDto();
+                    cccDeptDto.setDeptName(dept.getSimpleName());
+                    cccDeptDto.setDeptPid(deptMap.get(dept.getPid()).getCccDeptId());
+                    CccDeptDto newCccDeptDto = addCccDept(shiroUser.getId(), cccDeptDto);
+                    dept.setCccDeptId(newCccDeptDto.getDeptId());
+                    deptMapper.updateById(dept);
+//                    deptMap.put(dept.getDeptId(), dept);
+                } else {
+//                    compare ->  edit
+                    CccDeptDto cccDeptDetail = getCccDetail(shiroUser.getId(), dept.getCccDeptId());
+                    if (!dept.getSimpleName().equals(cccDeptDetail.getDeptName())
+                            || !deptMap.get(dept.getPid()).getCccDeptId().equals(cccDeptDetail.getDeptPid())) {
+                        CccDeptDto newCccDeptParam = new CccDeptDto();
+                        newCccDeptParam.setDeptName(dept.getSimpleName());
+                        newCccDeptParam.setDeptId(dept.getCccDeptId());
+                        newCccDeptParam.setDeptPid(deptMap.get(dept.getPid()).getCccDeptId());
+                        updateCccDept(shiroUser.getId(), newCccDeptParam);
+                    }
+                }
+            }
+            return ResponseData.success();
+        } catch (Exception e) {
+            log.error("同步部门失败：{}", e.getMessage());
+            log.warn("异常链：{}", ArrayUtils.toString(e.getStackTrace()));
+            return ResponseData.error("同步部门失败");
+        } finally {
+            if (redisUtils.hasKey(lockKey)) {
+                redisUtils.delete(lockKey);
+            }
+        }
+    }
+```
